@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block title %}Merci UQAC{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Merci à mon école !</h1>
+    <p class="hero-text">
+        Un petit espace pour dire merci à mon école, aux Dirigeants, à nos Directeurs de programmes, membres de l'administration, à nos professeurs, … à tout ce qui nous a fait avancer..
+</section>
+
+<section class="carousel-section">
+    <div class="carousel" id="uqac-carousel" aria-label="Carrousel de photos UQAC">
+        <button class="carousel-btn prev" type="button" aria-label="Image précédente">&#10094;</button>
+        <div class="carousel-track">
+            {% for image in images %}
+            <div class="carousel-slide {% if loop.first %}active{% endif %}">
+                <img src="{{ url_for('static', filename=image) }}" alt="Photo UQAC {{ loop.index }}">
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-btn next" type="button" aria-label="Image suivante">&#10095;</button>
+        <div class="carousel-dots" id="carousel-dots">
+            {% for image in images %}
+            <button class="dot {% if loop.first %}active{% endif %}" type="button" aria-label="Aller à l'image {{ loop.index }}"></button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<div class="grand_cadre_du_chat">
+    <section class="container intro-card">
+        <h2>Un mot pour mon école</h2>
+        <p>
+            Tu es finissant, tu peux laisser plusieurs messages à volonté, Lâche-toi ! un souvenir, un merci, une pensée pour une activité, un département, un cours que tu as coulé, une nuit blanche pour rendre un TP, une activité, une personne, ...
+        </p>
+        <a href="{{ url_for('but_du_site') }}">Un peu plus d'explications</a>
+    </section>
+
+    <section class="container">
+        <div class="toolbar">
+            <div class="filter-box">
+                <label for="filtre-etablissement">Filtrer par établissement</label>
+                <select id="filtre-etablissement">
+                    <option value="">Tous les établissements</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="poster_un_chat">
+            <form id="chat-form" class="chat-form" action="/post" method="post">
+                
+                <div class="row">
+                    <label for="prenom">Nom Complet</label>
+                    <input type="text" id="prenom" name="prenom" placeholder="Joel Sandé" required>
+                </div><br>
+
+                <div class="row">
+                    <label for="programme">Programme ou Service ou Lien avec l'établissement</label>
+                    <input type="text" id="programme" name="programme" placeholder="Bac. Informatique" required>
+                </div><br>
+
+                <div class="row">
+                    <label for="etablissement_scolaire_select">Établissement scolaire</label>
+                    <select id="etablissement_scolaire_select" required>
+                        <option value="">Chargement des établissements...</option>
+                    </select>
+                    <input type="hidden" id="etablissement_scolaire" name="etablissement_scolaire">
+                </div><br>
+
+                <div class="row hidden" id="autre-etablissement-row">
+                    <label for="autre_etablissement">Autre établissement</label>
+                    <input type="text" id="autre_etablissement" placeholder="Écris le nom officiel de l'établissement">
+                </div><br>
+
+                <div class="row">
+                    <label for="commentaire">Message</label>
+                    <textarea id="commentaire" name="commentaire" placeholder="Merci à mon établissement pour les rencontres, les apprentissages et les déclics qui ouvrent des portes." required></textarea>
+                </div><br>
+
+                <button id="send-btn" type="submit">Envoyer</button>
+                <span id="status" class="status" aria-live="polite"></span>
+            </form>
+        </div>
+
+        <hr>
+
+        <div class="le_chat" id="le_chat">
+            {% for m in messages %}
+            <div class="chat-line">
+                <div><strong>{{ m.prenom }}</strong> — <em>{{ m.programme }}</em></div>
+                <div class="chat-school">{{ m.etablissement_scolaire }}</div>
+                <div>{{ m.commentaire }}</div>
+            </div>
+            {% else %}
+            <p class="empty">Aucun message pour le moment — à toi d'ouvrir le bal.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const chatForm = document.getElementById('chat-form');
+    const sendBtn = document.getElementById('send-btn');
+    const statusEl = document.getElementById('status');
+    const chatBox = document.getElementById('le_chat');
+    const schoolSelect = document.getElementById('etablissement_scolaire_select');
+    const schoolHidden = document.getElementById('etablissement_scolaire');
+    const autreRow = document.getElementById('autre-etablissement-row');
+    const autreInput = document.getElementById('autre_etablissement');
+    const filterSelect = document.getElementById('filtre-etablissement');
+    const initialFilterValue = {{ filtre_etablissement|tojson }};
+    let establishments = [];
+
+    window.socket = io();
+
+    window.socket.on('chat:new', (msg) => {
+        const activeFilter = filterSelect.value.trim();
+        if (activeFilter && msg.etablissement_scolaire !== activeFilter) return;
+        addMessage(msg);
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadEstablishments();
+        bindSchoolSelect();
+        bindFilterSelect();
+    });
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const prenom = document.getElementById('prenom').value.trim();
+        const programme = document.getElementById('programme').value.trim();
+        const etablissement_scolaire = getResolvedSchool();
+        const commentaire = document.getElementById('commentaire').value.trim();
+
+        if (!etablissement_scolaire) {
+            statusEl.textContent = 'Choisis un établissement ou écris-en un.';
+            return;
+        }
+
+        sendBtn.disabled = true;
+        statusEl.textContent = 'Envoi en cours...';
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prenom, programme, etablissement_scolaire, commentaire })
+            });
+
+            const data = await response.json();
+            if (!response.ok || !data.ok) {
+                throw new Error(data.error || 'Erreur lors de l envoi.');
+            }
+
+            chatForm.reset();
+            schoolHidden.value = '';
+            autreRow.classList.add('hidden');
+            autreInput.required = false;
+            if (schoolSelect.options.length > 0) schoolSelect.selectedIndex = 0;
+            statusEl.textContent = 'Message envoyé.';
+        } catch (error) {
+            statusEl.textContent = error.message || 'Impossible d envoyer le message.';
+        } finally {
+            sendBtn.disabled = false;
+            setTimeout(() => { statusEl.textContent = ''; }, 2500);
+        }
+    });
+
+    async function loadEstablishments() {
+        const response = await fetch('{{ url_for("static", filename="data/etablissements.json") }}');
+        establishments = await response.json();
+        populateSchoolSelect();
+        populateFilterSelect();
+    }
+
+    function populateSchoolSelect() {
+        schoolSelect.innerHTML = '<option value="">Choisir un établissement</option>';
+        establishments.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.nom;
+            option.textContent = `${item.nom} — ${item.pays}`;
+            schoolSelect.appendChild(option);
+        });
+
+        const otherOption = document.createElement('option');
+        otherOption.value = '__other__';
+        otherOption.textContent = 'Autre établissement';
+        schoolSelect.appendChild(otherOption);
+    }
+
+    function populateFilterSelect() {
+        filterSelect.innerHTML = '<option value="">Tous les établissements</option>';
+        establishments.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.nom;
+            option.textContent = item.nom;
+            if (item.nom === initialFilterValue) option.selected = true;
+            filterSelect.appendChild(option);
+        });
+    }
+
+    function bindSchoolSelect() {
+        schoolSelect.addEventListener('change', () => {
+            if (schoolSelect.value === '__other__') {
+                autreRow.classList.remove('hidden');
+                autreInput.required = true;
+                schoolHidden.value = '';
+                return;
+            }
+
+            autreRow.classList.add('hidden');
+            autreInput.required = false;
+            autreInput.value = '';
+            schoolHidden.value = schoolSelect.value.trim();
+        });
+    }
+
+    function bindFilterSelect() {
+        filterSelect.addEventListener('change', async () => {
+            await reloadMessages();
+            const school = filterSelect.value.trim();
+            const url = school ? `/?etablissement=${encodeURIComponent(school)}` : '/';
+            history.replaceState({}, '', url);
+        });
+    }
+
+    function getResolvedSchool() {
+        if (schoolSelect.value === '__other__') {
+            const customName = autreInput.value.trim();
+            schoolHidden.value = customName;
+            return customName;
+        }
+
+        schoolHidden.value = schoolSelect.value.trim();
+        return schoolHidden.value;
+    }
+
+    async function reloadMessages() {
+        chatBox.innerHTML = '<p class="empty">Chargement...</p>';
+        const school = filterSelect.value.trim();
+        const url = school ? `/api/chat?etablissement=${encodeURIComponent(school)}` : '/api/chat';
+
+        try {
+            const response = await fetch(url);
+            const messages = await response.json();
+            chatBox.innerHTML = '';
+            if (!messages.length) {
+                chatBox.innerHTML = '<p class="empty">Aucun message pour ce filtre pour le moment.</p>';
+                return;
+            }
+            messages.reverse().forEach(addMessage);
+        } catch (error) {
+            chatBox.innerHTML = '<p class="empty">Impossible de charger les messages.</p>';
+        }
+    }
+
+    function addMessage({ prenom, programme, etablissement_scolaire, commentaire }) {
+        const empty = chatBox.querySelector('.empty');
+        if (empty) empty.remove();
+
+        const line = document.createElement('div');
+        line.className = 'chat-line';
+        line.innerHTML = `
+            <div><strong>${escapeHtml(prenom)}</strong> — <em>${escapeHtml(programme)}</em></div>
+            <div class="chat-school">${escapeHtml(etablissement_scolaire || '')}</div>
+            <div>${escapeHtml(commentaire)}</div>
+        `;
+        chatBox.prepend(line);
+    }
+
+    function escapeHtml(s) {
+        return String(s)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    const carousel = document.getElementById('uqac-carousel');
+    const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    const dots = Array.from(document.querySelectorAll('.dot'));
+    const prevBtn = carousel.querySelector('.prev');
+    const nextBtn = carousel.querySelector('.next');
+    let index = 0;
+    let autoplay;
+
+    function showSlide(newIndex) {
+        index = (newIndex + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+
+    function startAutoplay() {
+        autoplay = setInterval(() => showSlide(index + 1), 3500);
+    }
+
+    function resetAutoplay() {
+        clearInterval(autoplay);
+        startAutoplay();
+    }
+
+    prevBtn.addEventListener('click', () => {
+        showSlide(index - 1);
+        resetAutoplay();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        showSlide(index + 1);
+        resetAutoplay();
+    });
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            showSlide(i);
+            resetAutoplay();
+        });
+    });
+
+    if (slides.length > 0) startAutoplay();
+</script>
+{% endblock %}

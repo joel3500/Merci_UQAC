@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}RCS Gradués{% endblock %}</title>
+    <meta name="description" content="Une page hommage à votre école avec un livre de messages en direct et un carrousel photo.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Sofia|Trirong|Audiowide">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&effect=fire|neon|outline|emboss|shadow-multiple">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>
+            RCS Gradués — Une petite dédicace à mon école, ses professeures,
+            son personnel, et à toute l'énergie humaine qui aide les apprenants à grandir.
+        </p>
+        <p>
+            Cette page peut aussi servir de carnet vivant : on laisse un mot, on garde le contact, et on se rappelle que les
+            rencontres faites sur les bancs de l'école peuvent changer une trajectoire professionnelle entière.
+        </p>
+
+        <p>
+            Auteur : Joel Sandé, membre de l'équipe Habitat de StarTech. <br>
+            Autres membre de l'équipe : Cédric ... (Informatique), Shola Norrice (Dev. de jeux vidéos), Rodrigue Ilboudo (Sécurité Informatique), et enfin notre ainé, grando, conseillé et mentor Fructueux Jefferson (Doctora en Informatique).
+        </p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

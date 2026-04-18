@@ -1,0 +1,17 @@
+[
+  {"id": "uqac", "nom": "Université du Québec à Chicoutimi", "pays": "Canada", "type": "Université"},
+  {"id": "uqam", "nom": "Université du Québec à Montréal", "pays": "Canada", "type": "Université"},
+  {"id": "ulaval", "nom": "Université Laval", "pays": "Canada", "type": "Université"},
+  {"id": "udem", "nom": "Université de Montréal", "pays": "Canada", "type": "Université"},
+  {"id": "mcgill", "nom": "McGill University", "pays": "Canada", "type": "Université"},
+  {"id": "polymtl", "nom": "Polytechnique Montréal", "pays": "Canada", "type": "École d'ingénierie"},
+  {"id": "hec", "nom": "HEC Montréal", "pays": "Canada", "type": "École de gestion"},
+  {"id": "stanford", "nom": "Stanford University", "pays": "États-Unis", "type": "Université"},
+  {"id": "harvard", "nom": "Harvard University", "pays": "États-Unis", "type": "Université"},
+  {"id": "mit", "nom": "Massachusetts Institute of Technology", "pays": "États-Unis", "type": "Institut"},
+  {"id": "oxford", "nom": "University of Oxford", "pays": "Royaume-Uni", "type": "Université"},
+  {"id": "cambridge", "nom": "University of Cambridge", "pays": "Royaume-Uni", "type": "Université"},
+  {"id": "sorbonne", "nom": "Sorbonne Université", "pays": "France", "type": "Université"},
+  {"id": "epfl", "nom": "École polytechnique fédérale de Lausanne", "pays": "Suisse", "type": "École d'ingénierie"},
+  {"id": "tokyo", "nom": "The University of Tokyo", "pays": "Japon", "type": "Université"}
+]

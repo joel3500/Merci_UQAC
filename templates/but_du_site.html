@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %} RCS Gradués {% endblock %}
+
+{% block content %}
+    <div class="grand_cadre_du_chat">
+
+        <a href="{{ url_for('index') }}">retour sur la page des Publications</a>
+        
+        <section class="seo-block">
+            <h2>Une plateforme de dédicaces pour les établissements scolaires</h2>
+            <p>
+                RCS Gradués est un espace de reconnaissance où les étudiantes, étudiants,
+                diplômés, proches et membres du personnel peuvent publier des messages
+                d’appréciation pour leur établissement scolaire.
+            </p>
+
+            <p>
+                Le projet a commencé avec l'UQAC et s'ouvre progressivement à d'autres
+                établissements à travers le monde grâce à un système de sélection et de filtre
+                par établissement scolaire.
+            </p>
+        </section>
+
+        
+
+        <section class="container intro-card">
+            
+            <video id='vision_et_mission' controls title="J'espère que vous aimez ce contenu" allowfullscreen>
+            <source src="static/video/RCS_Gradues_compresse.mp4" type="video/mp4" >
+                Your browser does not support the video tag.
+            </video><br><br>
+
+            <h2>Un mot pour mon école</h2>
+            <p>
+                Tu es finissant, tu peux laisser plusieurs messages à volonté, Lâche-toi ! un souvenir, un merci, une pensée pour une activité, un département, un cours que tu as coulé, une nuit blanche pour rendre un TP, une activité, une personne, ...
+            </p>
+        </section>
+
+    </div>
+{% endblock %}
+
