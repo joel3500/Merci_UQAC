@@ -225,6 +225,41 @@ footer {
   object-fit: cover;
 }
 
+/*  MUSIQUE  */
+.music_box {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+}
+
+.music_box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.music_box select {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid black;
+  margin-bottom: 5px;
+}
+
+.music_actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.music_actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+/*  FIN DE MUSIQUE */
+
 @media (max-width: 768px) {
     body { font-size: 18px; }
     .carousel { height: 260px; }

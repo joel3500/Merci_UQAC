@@ -28,13 +28,41 @@
     </div>
 </section>
 
+
 <div class="grand_cadre_du_chat">
     <section class="container intro-card">
         <h2>Un mot pour notre école</h2>
         <p>
             Tu es finissant, tu peux laisser plusieurs messages à volonté, Lâche-toi ! un souvenir, un merci, une pensée pour une activité, un département, un cours que tu as coulé, une nuit blanche pour rendre un TP, une activité, une personne, ...
         </p>
+
         <a href="{{ url_for('but_du_site') }}">un peu plus d'explications</a>
+        
+        <section class="container">
+            <div class="music_box">
+
+                    <select id="music-select">
+                        <option value="">-- Une belle musique avec ça ? --</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/African_Queen.mp3') }}">African Queen</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Bob_Marley_No_Women_No_Cry.mp3') }}">No Woman No Cry</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Celine_Dion_-_Im_Alive.mp3') }}">I'm Alive</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Drake_-_Gods_Plan.mp3') }}">God's Plan</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Fifty_Cent_ft_Snoop_Dogg_G-Unit.mp3') }}">P.I.M.P / G-Unit</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Fifty_Cent_In_Da_Club.mp3') }}">In Da Club</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Garou_Celine_Dion_-_Sous_le_vent.mp3') }}">Sous le vent</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Musique_Graduation_1.mp3') }}">Graduation 1</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/SINACH_-_Way_Maker.mp3') }}">Way Maker</option>
+                        <option value="{{ url_for('static', filename='audio_sounds/Yes_We_Can_Obama_Song_by_william.mp3') }}">Yes We Can</option>
+                    </select>
+
+                    <div class="music_actions">
+                        <button type="button" id="play-music-btn">Lire</button>
+                        <button type="button" id="pause-music-btn">Pause</button>
+                    </div>
+
+                    <audio id="music-player" controls preload="none" style="width:100%; margin-top:10px;"></audio>
+                </div>
+        </section>        
     </section>
 
     <section class="container">
@@ -98,6 +126,7 @@
         </div>
     </section>
 </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -323,4 +352,51 @@
 
     if (slides.length > 0) startAutoplay();
 </script>
+
+<script>
+    // ==============================
+    // Gestion de la musique
+    // ==============================
+
+    const musicSelect = document.getElementById('music-select');
+    const musicPlayer = document.getElementById('music-player');
+    const playMusicBtn = document.getElementById('play-music-btn');
+    const pauseMusicBtn = document.getElementById('pause-music-btn');
+
+    // Quand on change la musique dans la liste déroulante
+    musicSelect.addEventListener('change', () => {
+        const selectedMusic = musicSelect.value;
+
+        // Si aucune musique n'est choisie, on vide le lecteur
+        if (!selectedMusic) {
+        musicPlayer.pause();
+        musicPlayer.src = '';
+        return;
+        }
+
+        // On charge la musique choisie
+        musicPlayer.src = selectedMusic;
+        musicPlayer.load();
+    });
+
+    // Bouton Lire
+    playMusicBtn.addEventListener('click', async () => {
+        if (!musicPlayer.src) {
+        alert("Choisis d'abord une musique.");
+        return;
+        }
+
+        try {
+        await musicPlayer.play();
+        } catch (error) {
+        console.error("Erreur pendant la lecture :", error);
+        }
+    });
+
+    // Bouton Pause
+    pauseMusicBtn.addEventListener('click', () => {
+        musicPlayer.pause();
+    });
+</script>
+
 {% endblock %}
