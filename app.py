@@ -291,7 +291,7 @@ def index():
 
     messages = query.order_by(ChatMessage.created_at.desc())
     return render_template(
-        "index_backend.html",
+        "index_back.html",
         messages=messages,
         images=build_images_list(),
         filtre_etablissement=etablissement,
