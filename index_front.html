@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>Merci UQAC — Dédicaces et messages de reconnaissance pour les établissements scolaires</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Sofia|Trirong|Audiowide">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&effect=fire|neon|outline|emboss|shadow-multiple">
+  
+  <meta name="description" content="Merci_UQAC est une plateforme de dédicaces et de messages de reconnaissance pour l'UQAC et, plus largement, pour les établissements scolaires du monde entier.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://merci-uqac.onrender.com/">
+
+  <meta property="og:title" content="Merci UQAC">
+  <meta property="og:description" content="Plateforme de dédicaces et de reconnaissance pour les établissements scolaires.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://merci-uqac.onrender.com/">
+  <meta property="og:image" content="https://merci-uqac.onrender.com/static/img/UQAC_12.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Merci_UQAC">
+  <meta name="twitter:description" content="Plateforme de dédicaces et de reconnaissance pour les établissements scolaires.">
+  <meta name="twitter:image" content="https://merci-uqac.onrender.com/static/img/UQAC_12.jpg"> 
+  <link rel="stylesheet" href="static/style.css">
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <h1>Merci ... </h1>
+      <p class="hero-text">
+        Une page hommage à mon École, quelque part dans le monde.
+      </p>
+    </section>
+
+    <section class="carousel-section">
+      <div class="carousel" id="uqac-carousel" aria-label="Carrousel de photos UQAC">
+        <button class="carousel-btn prev" type="button" aria-label="Image précédente">&#10094;</button>
+        <div class="carousel-track">
+          <div class="carousel-slide active"><img src="static/carousel/UQAC_1.jpg" alt="Photo UQAC 1"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_10.jpg" alt="Photo UQAC 2"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_2.jpg" alt="Photo UQAC 3"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_3.jpg" alt="Photo UQAC 4"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_4.jpg" alt="Photo UQAC 5"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_5.jpg" alt="Photo UQAC 6"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_6.jpg" alt="Photo UQAC 7"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_7.jpg" alt="Photo UQAC 8"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_8.jpg" alt="Photo UQAC 9"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_9.jpg" alt="Photo UQAC 10"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_10.jpg" alt="Photo UQAC 11"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_11.jpg" alt="Photo UQAC 12"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_12.jpg" alt="Photo UQAC 13"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_13.jpg" alt="Photo UQAC 14"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_14.jpg" alt="Photo UQAC 15"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_15.jpg" alt="Photo UQAC 16"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_16.jpg" alt="Photo UQAC 17"></div>
+          <div class="carousel-slide"><img src="static/carousel/UQAC_17.jpg" alt="Photo UQAC 18"></div>
+        </div>
+        <button class="carousel-btn next" type="button" aria-label="Image suivante">&#10095;</button>
+        <div class="carousel-dots" id="carousel-dots">
+          <button class="dot active" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+          <button class="dot" type="button"></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grand_cadre_du_chat">
+      <section class="container intro-card">
+        <h2>Un mot pour notre École</h2>
+        <p>
+          Tu peux laisser un message, un souvenir, un merci, ou une pensée pour un programme, un département, une activité, une personne, un prof, ou tout simplement pour l'expérience dans ton école.
+        </p>
+      </section>
+
+      <section class="container">
+        <div class="toolbar">
+          <div class="filter-box">
+            <label for="filtre-etablissement">Filtrer par établissement</label>
+            <select id="filtre-etablissement">
+              <option value="">Tous les établissements</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="poster_un_chat">
+          <div class="chat-form">
+            <p>
+              Pour publier un message, connecte-toi sur la version officielle du site.
+            </p>
+            <p>
+              <a href="https://merci-uqac.onrender.com/login/" target="_blank" rel="noopener noreferrer">
+                Se connecter sur Merci_UQAC
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="le_chat" id="le_chat">
+          <p class="empty">Aucun message pour le moment — à toi d'ouvrir le bal.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+      Merci à vous ! — une page pensée pour garder vivants les remerciements, les liens, et les souvenirs.
+  </footer>
+
+  <script>
+    const RENDER_BASE = 'https://merci-uqac.onrender.com';
+    const socket = io(RENDER_BASE, {
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: 20,
+      reconnectionDelay: 1000
+    });
+
+    const filterSelect = document.getElementById('filtre-etablissement');
+    const chat = document.getElementById('le_chat');
+
+    socket.on('chat:new', (msg) => {
+      const activeFilter = filterSelect.value.trim();
+      if (activeFilter && msg.etablissement_scolaire !== activeFilter) return;
+      renderMessage(msg);
+    });
+
+    async function loadEstablishments() {
+      const response = await fetch(`${RENDER_BASE}/api/etablissements`);
+      const establishments = await response.json();
+
+      filterSelect.innerHTML = '<option value="">Tous les établissements</option>';
+
+      establishments.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.nom;
+        opt.textContent = item.nom;
+        filterSelect.appendChild(opt);
+      });
+    }
+
+    async function warmAndLoad() {
+      try {
+        await loadEstablishments();
+        await fetch(`${RENDER_BASE}/api/health`, { method: 'GET' });
+        await reloadMessages();
+      } catch (e) {
+        setTimeout(warmAndLoad, 4000);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', warmAndLoad);
+
+    function renderMessage({ prenom, programme, etablissement_scolaire, commentaire }) {
+        if (!prenom || !etablissement_scolaire || !commentaire) return;
+
+        const empty = chat.querySelector('.empty');
+        if (empty) empty.remove();
+
+        const line = document.createElement('div');
+        line.className = 'chat-line';
+        line.innerHTML = `
+          <div>
+            <strong>${escapeHtml(prenom)}</strong>${programme ? ` — <em>${escapeHtml(programme)}</em>` : ''}
+          </div>
+          <div class="chat-school">${escapeHtml(etablissement_scolaire)}</div>
+          <div>${escapeHtml(commentaire)}</div>
+        `;
+        chat.prepend(line);
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    filterSelect.addEventListener('change', reloadMessages);
+
+    async function reloadMessages() {
+      chat.innerHTML = '<p class="empty">Chargement...</p>';
+      const school = filterSelect.value.trim();
+      const url = school ? `${RENDER_BASE}/api/chat?etablissement=${encodeURIComponent(school)}` : `${RENDER_BASE}/api/chat`;
+      const r = await fetch(url, { method: 'GET' });
+      const messages = await r.json();
+      chat.innerHTML = '';
+      if (!messages.length) {
+        chat.innerHTML = '<p class="empty">Aucun message pour ce filtre pour le moment.</p>';
+        return;
+      }
+      messages.reverse().forEach(renderMessage);
+    }
+
+    const carousel = document.getElementById('uqac-carousel');
+    const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    const dots = Array.from(document.querySelectorAll('.dot'));
+    const prevBtn = carousel.querySelector('.prev');
+    const nextBtn = carousel.querySelector('.next');
+    let index = 0;
+    let autoplay;
+
+    function showSlide(newIndex) {
+      index = (newIndex + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+
+    function startAutoplay() {
+      autoplay = setInterval(() => showSlide(index + 1), 3500);
+    }
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      startAutoplay();
+    }
+
+    prevBtn.addEventListener('click', () => { showSlide(index - 1); resetAutoplay(); });
+    nextBtn.addEventListener('click', () => { showSlide(index + 1); resetAutoplay(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { showSlide(i); resetAutoplay(); }));
+    if (slides.length > 0) startAutoplay();
+  </script>
+
+</body>
+</html>

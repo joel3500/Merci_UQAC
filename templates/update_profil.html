@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Mettre à jour mon profil</h2>
+
+<form method="post" class="form-vertical">
+  <label for="prenom">Prénom</label>
+  <input type="text" id="prenom" name="prenom" value="{{ user.prenom or '' }}" required>
+
+  <label for="nom">Nom</label>
+  <input type="text" id="nom" name="nom" value="{{ user.nom or '' }}">
+
+  <label for="ville">Ville</label>
+  <input type="text" id="ville" name="ville" value="{{ user.ville or '' }}">
+
+  <label for="pays">Pays</label>
+  <input type="text" id="pays" name="pays" value="{{ user.pays or '' }}">
+
+  <label for="etablissement_scolaire">Établissement scolaire</label>
+  <input type="text" id="etablissement_scolaire" name="etablissement_scolaire" value="{{ user.etablissement_scolaire or '' }}" required>
+
+  <label for="type_etablissement">Type d'établissement</label>
+  <input type="text" id="type_etablissement" name="type_etablissement" value="{{ user.type_etablissement or '' }}">
+
+  <label for="programme">Programme / Service / Lien</label>
+  <input type="text" id="programme" name="programme" value="{{ user.programme or '' }}">
+
+  <br><br>
+  <button type="submit">Enregistrer</button>
+</form>
+
+{% endblock %}

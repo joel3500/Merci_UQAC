@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Vérification de votre compte</h2>
+
+<p>
+  Un code à 5 chiffres vous a été envoyé par email.
+  Saisissez-le ci-dessous pour activer votre compte.
+</p>
+
+<form method="post" class="form-vertical">
+  <label for="email">Email utilisé à l'inscription</label>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    required
+    value="{{ prefill_email or '' }}"
+  >
+
+  <label for="code">Code de vérification (5 chiffres)</label>
+  <input
+    type="text"
+    id="code"
+    name="code"
+    maxlength="5"
+    pattern="[0-9]{5}"
+    required
+    placeholder="Ex : 04217"
+  >
+
+  <button type="submit">Valider mon compte</button>
+</form>
+
+{% endblock %}

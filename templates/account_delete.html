@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Supprimer mon compte</h2>
+
+<p>
+  Attention : cette action est irréversible.<br>
+  Votre compte, vos projets et vos commentaires seront supprimés.
+</p>
+
+<form method="post">
+  <button type="submit">Oui, supprimer mon compte</button>
+  <a href="{{ url_for('index') }}">Annuler</a>
+</form>
+
+{% endblock %}
